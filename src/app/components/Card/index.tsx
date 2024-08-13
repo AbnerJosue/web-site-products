@@ -36,17 +36,17 @@ function CardComponent() {
 
   return (
 
-    <Grid container spacing={1}>
+    <Grid container spacing={2}>
 
       {
         products?.map((product) => {
           return (
             <Grid key={product.id} item xs={4}>
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 400 }}>
                 <CardMedia
                   component="img"
                   alt="products"
-                  height="140"
+                  height="200"
                   width={50}
                   image="/img/coffee-mug.png"
                 />
@@ -65,7 +65,7 @@ function CardComponent() {
                   <Button onClick={() => router.push(`/editar/${ product.id }`)} size="small" variant='contained' color='info'>
                     <ModeEditIcon/>
                   </Button>
-                  <Button size="small" variant='outlined' color='warning'>
+                  <Button onClick={() => router.push(`/eliminar/${ product.id }`)} size="small" variant='outlined' color='warning'>
                     <DeleteOutlineIcon/>
                   </Button>
                 </CardActions>

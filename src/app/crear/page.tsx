@@ -5,42 +5,17 @@ import { TextField, Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-function EditarPage({params}:any) {
+function EditarPage() {
 
-  const [ products, setProducts ] = useState();
   const [data, setData] = useState({
+    id: '',
     name: '',
     price: '',
     quantity: ''
   });
 
-  useEffect(() => {
-    if( !params.slug ) return; 
-    
-    
-    axios.get(`http://localhost:8000/api/products/${params.slug}`)
-    .then((response) => {
-      console.log(response.data);
-      setProducts(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching products:', error);
-    });
 
-  },[params])
-
-
-  useEffect(() => {
-
-    if(!products) return 
-
-    setData(products)
-
-  }, [products])
-
- 
-
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setData((prevData) => ({
       ...prevData,
@@ -49,26 +24,33 @@ function EditarPage({params}:any) {
   };
 
   const generateId = () => {
-    return Math.random().toString(36).substr(2, 9);
+    return Math.floor(Math.random() * 10000) + 1;;
   };
 
-  const submit = (e:any) => {
+  const submit = (e: any) => {
     e.preventDefault();
-    
-    axios.put(`http://localhost:8000/api/products/update-product/${params.slug}`, data,{
-      withCredentials: false 
-   })
-    .then((response) => {
-      console.log('Product updated successfully:', response.data);
+    const productWithId = { ...data, id: generateId() };
+    console.log(productWithId);
+
+    axios.post(`http://localhost:8000/api/products/add`, productWithId, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      },
     })
-    .catch((error) => {
-      console.error('Error updating product:', error);
-    });
+      .then((response) => {
+        console.log('Product updated successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error updating product:', error);
+      });
+    // Do something with productWithId, like sending it to an API
   };
+
   return (
     <>
       <LayoutComponent />
-      <div style={{ paddingTop: 50}}>
+      <div style={{ paddingTop: 50 }}>
         <h4>Actualizar producto</h4>
       </div>
       <form onSubmit={submit}>

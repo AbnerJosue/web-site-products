@@ -55,7 +55,7 @@ function EditarPage({params}:any) {
   const submit = (e:any) => {
     e.preventDefault();
     
-    axios.put(`http://localhost:8000/api/products/update-product/${params.slug}`, data,{
+    axios.put(`http://localhost:8000/api/products/remove/${params.slug}`, data,{
       withCredentials: false 
    })
     .then((response) => {
@@ -69,7 +69,7 @@ function EditarPage({params}:any) {
     <>
       <LayoutComponent />
       <div style={{ paddingTop: 50}}>
-        <h4>Actualizar producto</h4>
+        <h4> Eliminar producto </h4>
       </div>
       <form onSubmit={submit}>
         <TextField
@@ -97,7 +97,7 @@ function EditarPage({params}:any) {
           margin="normal"
         />
         <Button type="submit" variant="contained" color="primary">
-          Save
+          ELIMINAR
         </Button>
       </form>
     </>
