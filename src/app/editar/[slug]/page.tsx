@@ -5,9 +5,12 @@ import { TextField, Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-function EditarPage({params}:any) {
+function EditarPage({ params }: any) {
 
-  const [ products, setProducts ] = useState();
+
+  
+
+  const [products, setProducts] = useState();
   const [data, setData] = useState({
     name: '',
     price: '',
@@ -15,32 +18,29 @@ function EditarPage({params}:any) {
   });
 
   useEffect(() => {
-    if( !params.slug ) return; 
-    
-    
-    axios.get(`http://localhost:8000/api/products/${params.slug}`)
-    .then((response) => {
-      console.log(response.data);
-      setProducts(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching products:', error);
-    });
+    if (!params.slug) return;
 
-  },[params])
+    axios.get(`http://localhost:8000/api/products/${params.slug}`)
+      .then((response) => {
+        console.log(response.data);
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+
+  }, [params])
 
 
   useEffect(() => {
 
-    if(!products) return 
+    if (!products) return
 
     setData(products)
 
   }, [products])
 
- 
-
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setData((prevData) => ({
       ...prevData,
@@ -52,23 +52,24 @@ function EditarPage({params}:any) {
     return Math.random().toString(36).substr(2, 9);
   };
 
-  const submit = (e:any) => {
+  const submit = (e: any) => {
     e.preventDefault();
-    
-    axios.put(`http://localhost:8000/api/products/update-product/${params.slug}`, data,{
-      withCredentials: false 
-   })
-    .then((response) => {
-      console.log('Product updated successfully:', response.data);
+
+    axios.put(`http://localhost:8000/api/products/update-product/${params.slug}`, data, {
+      withCredentials: false
     })
-    .catch((error) => {
-      console.error('Error updating product:', error);
-    });
+      .then((response) => {
+        console.log('Product updated successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error updating product:', error);
+      });
   };
+
   return (
     <>
       <LayoutComponent />
-      <div style={{ paddingTop: 50}}>
+      <div style={{ paddingTop: 50 }}>
         <h4>Actualizar producto</h4>
       </div>
       <form onSubmit={submit}>

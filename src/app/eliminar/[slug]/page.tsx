@@ -17,7 +17,6 @@ function EditarPage({params}:any) {
   useEffect(() => {
     if( !params.slug ) return; 
     
-    
     axios.get(`http://localhost:8000/api/products/${params.slug}`)
     .then((response) => {
       console.log(response.data);
